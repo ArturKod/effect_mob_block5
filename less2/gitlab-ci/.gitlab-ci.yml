@@ -1,0 +1,21 @@
+stages:
+  - test
+
+cache:
+  paths:
+    - vendor/
+
+phpunit:
+  stage: test
+  image: php:8.3-cli
+  script:
+    - apt-get update && apt-get install -y git unzip
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - composer install
+    - vendor/bin/phpunit tests/ --colors=always
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+    paths:
+      - vendor/

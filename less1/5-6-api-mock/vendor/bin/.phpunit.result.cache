@@ -1,0 +1,1 @@
+{"version":2,"defects":{"ApiTest::testUserApiReturnsUsers":8},"times":{"ApiTest::testUserApiReturnsUsers":0.009,"MockTest::testFindUserByEmailIsCalled":0.003,"MockTest::testFindUserByEmailReturnsUser":0.002}}
