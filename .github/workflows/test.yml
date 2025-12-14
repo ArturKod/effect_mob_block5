@@ -1,0 +1,12 @@
+name: Test Workflow
+on: [push, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "✅ GitHub Actions IS WORKING!"
+    - run: echo "Repository: ${{ github.repository }}"
+    - run: echo "Event: ${{ github.event_name }}"
+    - run: echo "Branch: ${{ github.ref }}"
+    - run: ls -la
