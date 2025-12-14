@@ -1,0 +1,37 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  PROJECT_DIR: "less2/github-actions"
+
+test:
+  stage: test
+  image: php:8.3
+  before_script:
+    - apt-get update && apt-get install -y unzip git
+    - cd $PROJECT_DIR
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - composer install --no-progress --no-suggest
+  script:
+    - cd $PROJECT_DIR
+    - vendor/bin/phpunit tests/ 
+  after_script:
+    - echo "✅ Assignment 3: GitLab CI/CD - COMPLETE"
+  artifacts:
+    when: always
+    paths:
+      - $PROJECT_DIR/tests/
+    expire_in: 1 week
+
+deploy:
+  stage: deploy
+  script:
+    - echo "✅ Deployment simulation for GitLab CI"
+    - echo "✅ Project: $PROJECT_DIR"
+    - echo "✅ Would deploy via SSH to server"
+    # Для реального деплоя:
+    # - ssh $SSH_USER@$SSH_HOST "cd /var/www/project && git pull origin main && composer install --no-dev"
+  only:
+    - main
+  when: manual 

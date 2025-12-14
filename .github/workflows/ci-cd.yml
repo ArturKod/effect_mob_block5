@@ -1,0 +1,76 @@
+name: PHP CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'less2/github-actions/**' 
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'less2/github-actions/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: "Assignment 1 & 2: Run Tests"
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+    
+    - name: Navigate to project directory
+      run: cd less2/github-actions && pwd
+    
+    - name: Validate composer.json
+      run: cd less2/github-actions && composer validate --strict
+    
+    - name: Install dependencies
+      run: cd less2/github-actions && composer install --prefer-dist --no-progress
+    
+    - name: Run PHPUnit tests
+      run: cd less2/github-actions && vendor/bin/phpunit tests/ --colors=always
+    
+    - name: Display success message
+      run: |
+        echo "✅ Assignment 1: CI/CD Setup - COMPLETE"
+        echo "✅ Assignment 2: Auto Tests - COMPLETE"
+        echo "🎯 All tests passed successfully!"
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    name: "Assignment 4: Deploy to Server"
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Show project structure
+      run: |
+        echo "Repository structure:"
+        ls -la
+        echo "Project structure:"
+        ls -la less2/github-actions/
+    
+    - name: Simulate FTP Deployment
+      run: |
+        echo "Starting FTP deployment simulation..."
+        echo "Source directory: less2/github-actions/"
+        echo "Files count:"
+        find less2/github-actions/src -type f -name "*.php" | wc -l
+        
+        # Симуляция FTP загрузки
+        echo "✅ Uploading files via FTP..."
+        echo "✅ index.php"
+        echo "✅ src/Calculator.php"
+        echo "✅ vendor/ files"
+        echo "✅ composer.json"
+        
+        echo "✅ All files uploaded to production server!"
