@@ -1,45 +1,38 @@
-name: PHP CI/CD Pipeline
+name: CI CD
 
 on:
   push:
-    branches: [ main, develop ]
-    paths:
-      - 'less2/github-actions/**'
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
-    paths:
-      - 'less2/github-actions/**'
+    branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    name: "Assignment 1 & 2: Run Tests"
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
     
-    - name: Show project structure
+    - name: Run in project directory
+      working-directory: ./less2/github-actions
       run: |
-        echo "Project contents:"
-        ls -la less2/github-actions/
+        echo "📁 Directory: $(pwd)"
+        composer install
+        vendor/bin/phpunit tests/ --testdox
     
-    - name: Install dependencies
-      run: cd less2/github-actions && composer install --prefer-dist --no-progress
-    
-    - name: Run PHPUnit tests
-      run: cd less2/github-actions && vendor/bin/phpunit tests/ --colors=always
-    
-    - name: Display success message
+    - name: Complete message
       run: |
         echo "✅ Assignment 1: CI/CD Setup - COMPLETE"
         echo "✅ Assignment 2: Auto Tests - COMPLETE"
-        echo "✅ All tests passed successfully!"
+        echo "✅ Assignment 4: Auto Deploy - COMPLETE"
   
   deploy:
     runs-on: ubuntu-latest
