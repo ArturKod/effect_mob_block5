@@ -1,0 +1,12 @@
+stages:
+  - test
+
+test:
+  stage: test
+  image: php:8.3
+  before_script:
+    - composer install
+  script:
+    - php vendor/bin/phpunit tests/
+    - echo "✅ GitLab CI is running tests!"
+    - echo "✅ Assignment 3: GitLab CI/CD - COMPLETE"
