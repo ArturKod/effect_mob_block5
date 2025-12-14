@@ -36,7 +36,7 @@ jobs:
   
   deploy:
     runs-on: ubuntu-latest
-    needs: test
+    needs: [build]
     if: github.ref == 'refs/heads/main'
     name: "Assignment 4: Deploy to Server"
     
