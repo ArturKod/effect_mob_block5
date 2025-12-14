@@ -1,1 +1,1 @@
-{"version":2,"defects":{"ApiTest::testUserApiReturnsUsers":8},"times":{"ApiTest::testUserApiReturnsUsers":0.009,"MockTest::testFindUserByEmailIsCalled":0.003,"MockTest::testFindUserByEmailReturnsUser":0.002}}
+{"version":2,"defects":{"ApiTest::testUserApiReturnsUsers":8,"ApiTest::testNotFoundRoute":8},"times":{"ApiTest::testUserApiReturnsUsers":0.047,"MockTest::testFindUserByEmailIsCalled":0.003,"MockTest::testFindUserByEmailReturnsUser":0.002,"ApiTest::testNotFoundRoute":0.026}}

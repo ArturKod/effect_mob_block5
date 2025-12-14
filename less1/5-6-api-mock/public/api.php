@@ -5,11 +5,14 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\UserRepository;
 
 header('Content-Type: application/json');
-
-
 header('Access-Control-Allow-Origin: *');
 
-if ($_SERVER['REQUEST_URI'] === '/users' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+$requestUri = $_SERVER['REQUEST_URI'];
+$requestMethod = $_SERVER['REQUEST_METHOD'];
+
+$path = parse_url($requestUri, PHP_URL_PATH);
+
+if ($path === '/users' && $requestMethod === 'GET') {
     try {
         $repository = new UserRepository();
         $users = $repository->getAllUsers();
@@ -30,5 +33,10 @@ if ($_SERVER['REQUEST_URI'] === '/users' && $_SERVER['REQUEST_METHOD'] === 'GET'
     }
 } else {
     http_response_code(404);
-    echo json_encode(['success' => false, 'error' => 'Not Found']);
+    echo json_encode([
+        'success' => false, 
+        'error' => 'Not Found',
+        'path' => $path,
+        'method' => $requestMethod
+    ]);
 }

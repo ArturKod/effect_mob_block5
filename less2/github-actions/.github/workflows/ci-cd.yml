@@ -1,0 +1,63 @@
+name: PHP CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite
+        coverage: none
+    
+    - name: Validate composer.json
+      run: composer validate --strict
+    
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: Run PHPUnit tests
+      run: vendor/bin/phpunit tests/
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: tests/
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+    
+    - name: Install dependencies
+      run: composer install --no-dev --prefer-dist --no-progress
+    
+    - name: Deploy to Server (Simulated)
+      run: |
+        echo "🚀 Starting deployment..."
+        echo "📁 Files ready for deployment:"
+        ls -la src/
+        echo "✅ Assignment 4: Auto deploy - COMPLETE"
+        echo "📤 Files would be uploaded via FTP/SSH here"
