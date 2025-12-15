@@ -26,11 +26,20 @@ jobs:
         composer install --prefer-dist --no-progress
         composer dump-autoload -o
     
+    - name: Setup project
+      working-directory: ./less2/github-actions
+      run: |
+        echo "🚀 Assignment 1: Setting up CI/CD..."
+        composer install --prefer-dist --no-progress
+        composer dump-autoload -o
+        
+        chmod +x vendor/bin/phpunit
+    
     - name: Run tests
       working-directory: ./less2/github-actions
       run: |
         echo "🧪 Assignment 2: Running auto tests..."
-        ./vendor/bin/phpunit tests/ --testdox --colors=always
+        php vendor/bin/phpunit tests/ --testdox --colors=always  # Используем php перед
     
     - name: Mark assignments complete
       run: |
