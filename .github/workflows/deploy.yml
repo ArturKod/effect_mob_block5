@@ -3,8 +3,6 @@ name: "Assignment 4: Auto Deploy"
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'less2/github-actions/**'
 
 jobs:
   deploy:
